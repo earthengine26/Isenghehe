@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ning-Ning Poke</title>
     <style>
         /* Reset dasar */
@@ -16,8 +16,8 @@
         body {
             background-color: #0d1117;
             color: #c9d1d9;
-            /* Menggunakan min-height dan flexbox agar aman di semua ukuran layar mobile/desktop */
-            min-height: 100vh;
+            /* Menggunakan dvh (Dynamic Viewport Height) agar pas banget di layar HP modern */
+            height: 100dvh;
             width: 100vw;
             display: flex;
             justify-content: center;
@@ -26,42 +26,42 @@
             position: relative;
         }
 
-        /* Emotikon Ngeledek di Pojok Kanan Bawah (Responsive menggunakan vw/vh) */
+        /* Emotikon Ngeledek di Pojok Kanan Bawah (Ukuran aman untuk layar HP & Laptop) */
         .mocking-emoji {
             position: absolute;
-            bottom: 5px;
-            right: 10px;
-            font-size: clamp(5rem, 18vw, 12rem); /* Ukuran menyesuaikan otomatis dengan layar */
-            opacity: 0.25;
+            bottom: env(safe-area-inset-bottom, 10px);
+            right: env(safe-area-inset-right, 10px);
+            font-size: clamp(4rem, 15vw, 11rem);
+            opacity: 0.22;
             pointer-events: none;
             z-index: 1;
             line-height: 1;
         }
 
-        /* Teks Utama di Tengah Screen (Responsive dengan clamp) */
+        /* Teks Utama di Tengah Screen */
         .main-text {
-            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            font-size: clamp(1.1rem, 4.5vw, 2.5rem);
             font-weight: 600;
             color: #8b949e;
             text-align: center;
-            letter-spacing: 1px;
-            padding: 0 20px;
+            letter-spacing: 0.5px;
+            padding: 0 24px;
             z-index: 2;
         }
 
-        /* Teks Pojok Kanan Bawah (Responsive) */
+        /* Teks Pojok Kanan Bawah (Aman dari area navigasi bawah HP modern) */
         .bottom-right-text {
             position: absolute;
-            bottom: max(15px, 3vh);
-            right: max(15px, 3vw);
-            font-size: clamp(1rem, 3.5vw, 2rem);
+            bottom: max(20px, env(safe-area-inset-bottom, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
+            font-size: clamp(0.9rem, 3.8vw, 1.8rem);
             font-weight: 700;
             color: #58a6ff;
-            text-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
+            text-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
             animation: pulse 2s infinite alternate;
             z-index: 3;
             text-align: right;
-            max-width: 80%; /* Mencegah teks terlalu panjang meluber ke kiri di layar kecil */
+            max-width: 75%;
         }
 
         /* Animasi Efek Glow/Pulse */
