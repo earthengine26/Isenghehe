@@ -2,10 +2,10 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- viewport-fit=cover wajib agar env(safe-area-inset-*) bekerja di HP berponi/gesture bar -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Ning-Ning Poke</title>
     <style>
-        /* Reset dasar */
         * {
             margin: 0;
             padding: 0;
@@ -13,81 +13,97 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             background-color: #0d1117;
             color: #c9d1d9;
-            /* Menggunakan dvh (Dynamic Viewport Height) agar pas banget di layar HP modern */
-            height: 100dvh;
-            width: 100vw;
+            min-height: 100vh;   /* fallback browser lama */
+            min-height: 100dvh;  /* pas di layar HP modern */
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             position: relative;
+            /* ruang aman dari poni, gesture bar, dan tepi layar */
+            padding:
+                max(16px, env(safe-area-inset-top))
+                max(16px, env(safe-area-inset-right))
+                max(16px, env(safe-area-inset-bottom))
+                max(16px, env(safe-area-inset-left));
         }
 
-        /* Emotikon Ngeledek di Pojok Kanan Bawah (Ukuran aman untuk layar HP & Laptop) */
+        /* Emotikon di pojok kanan bawah */
         .mocking-emoji {
             position: absolute;
-            bottom: env(safe-area-inset-bottom, 10px);
-            right: env(safe-area-inset-right, 10px);
-            font-size: clamp(4rem, 15vw, 11rem);
+            right: max(10px, env(safe-area-inset-right));
+            bottom: max(10px, env(safe-area-inset-bottom));
+            /* vmin = ikut sisi layar terkecil, jadi aman di mode portrait maupun landscape */
+            font-size: clamp(3.5rem, 22vmin, 11rem);
             opacity: 0.22;
             pointer-events: none;
             z-index: 1;
             line-height: 1;
         }
 
-        /* Teks Utama di Tengah Screen */
+        /* Teks utama di tengah */
         .main-text {
-            font-size: clamp(1.1rem, 4.5vw, 2.5rem);
+            font-size: clamp(1.1rem, 4vw + 0.5rem, 2.5rem);
             font-weight: 600;
             color: #8b949e;
             text-align: center;
             letter-spacing: 0.5px;
-            padding: 0 24px;
+            line-height: 1.4;
+            max-width: 100%;
+            overflow-wrap: break-word;
             z-index: 2;
         }
 
-        /* Teks Pojok Kanan Bawah (Aman dari area navigasi bawah HP modern) */
+        /* Teks pojok kanan bawah */
         .bottom-right-text {
             position: absolute;
-            bottom: max(20px, env(safe-area-inset-bottom, 20px));
-            right: max(20px, env(safe-area-inset-right, 20px));
-            font-size: clamp(0.9rem, 3.8vw, 1.8rem);
+            right: max(20px, env(safe-area-inset-right));
+            bottom: max(20px, env(safe-area-inset-bottom));
+            font-size: clamp(0.9rem, 3vw + 0.4rem, 1.8rem);
             font-weight: 700;
             color: #58a6ff;
             text-shadow: 0 0 10px rgba(88, 166, 255, 0.4);
+            text-align: right;
+            max-width: calc(100% - 40px);
+            /* skala dari sudut kanan bawah supaya tidak melebar keluar layar */
+            transform-origin: right bottom;
             animation: pulse 2s infinite alternate;
             z-index: 3;
-            text-align: right;
-            max-width: 75%;
         }
 
-        /* Animasi Efek Glow/Pulse */
         @keyframes pulse {
-            0% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
+            0%   { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1;   transform: scale(1.05); }
+        }
+
+        /* HP dalam posisi landscape (tinggi layar pendek) */
+        @media (max-height: 480px) {
+            .mocking-emoji { font-size: clamp(2.5rem, 18vmin, 5rem); }
+            .main-text { font-size: clamp(1rem, 3vw, 1.6rem); }
+        }
+
+        /* Hormati pengaturan "kurangi animasi" di HP */
+        @media (prefers-reduced-motion: reduce) {
+            .bottom-right-text { animation: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Emotikon Ngeledek (Background Pojok Kanan Bawah) -->
     <div class="mocking-emoji">😜</div>
 
-    <!-- Teks Utama -->
     <div class="main-text">
         Baca di bawah pojok kanan
     </div>
 
-    <!-- Teks Pojok Kanan Bawah -->
     <div class="bottom-right-text">
         Ning-Ning Poke
     </div>
