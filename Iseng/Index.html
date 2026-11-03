@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ning-Ning Poke</title>
+    <style>
+        /* Reset dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            /* Menggunakan min-height dan flexbox agar aman di semua ukuran layar mobile/desktop */
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Emotikon Ngeledek di Pojok Kanan Bawah (Responsive menggunakan vw/vh) */
+        .mocking-emoji {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: clamp(5rem, 18vw, 12rem); /* Ukuran menyesuaikan otomatis dengan layar */
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 1;
+            line-height: 1;
+        }
+
+        /* Teks Utama di Tengah Screen (Responsive dengan clamp) */
+        .main-text {
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: #8b949e;
+            text-align: center;
+            letter-spacing: 1px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        /* Teks Pojok Kanan Bawah (Responsive) */
+        .bottom-right-text {
+            position: absolute;
+            bottom: max(15px, 3vh);
+            right: max(15px, 3vw);
+            font-size: clamp(1rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: #58a6ff;
+            text-shadow: 0 0 12px rgba(88, 166, 255, 0.4);
+            animation: pulse 2s infinite alternate;
+            z-index: 3;
+            text-align: right;
+            max-width: 80%; /* Mencegah teks terlalu panjang meluber ke kiri di layar kecil */
+        }
+
+        /* Animasi Efek Glow/Pulse */
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Emotikon Ngeledek (Background Pojok Kanan Bawah) -->
+    <div class="mocking-emoji">😜</div>
+
+    <!-- Teks Utama -->
+    <div class="main-text">
+        Baca di bawah pojok kanan
+    </div>
+
+    <!-- Teks Pojok Kanan Bawah -->
+    <div class="bottom-right-text">
+        Ning-Ning Poke
+    </div>
+
+</body>
+</html>
